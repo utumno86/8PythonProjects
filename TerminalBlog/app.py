@@ -1,11 +1,14 @@
 from models.post import Post
+from database import Database
 import pymongo
+
 __author__ = 'utumno86'
 
+Database.initialize()
 
-post = Post("Post 1 title", "post 1 content", "post 1 author")
-post2 = Post("Post 2 title", "post 2 content", "post 2 author")
+posts = Post.from_blog('123')
 
-print(post.content)
-print(post2.content)
+for post in posts:
+  print(post)
+
 
