@@ -1,12 +1,12 @@
-from models.post import Post
-from database import Database
 import pymongo
+from models.menu import Menu
+from database import Database
 
 Database.initialize()
 
-posts = Post.from_blog('123')
+menu = Menu()
 
-for post in posts:
-  print(post)
+menu.run_menu()
+
 
 

@@ -13,12 +13,17 @@ class Blog(object):
   def new_post(self):
     title = input("Enter post title:")
     content = input("Enter post content:")
-    date = input("Enter post date (in format DDMMYY), or leave it blank for today:")
+    date = input("Enter post date (in format DDMMYYYY), or leave it blank for today:")
+    if date == "":
+      date = datetime.datetime.utcnow()
+    else:
+      date = datetime.datetime.strptime(date, "%d%m%Y")
+
     post = Post(blog_id=self.id,
             author = self.author,
             title=title,
             content=content,
-            date=datetime.datetime.strptime(date, "%d%m%Y")
+            date=date
     )
     post.save_to_mongo()
 
@@ -37,7 +42,7 @@ class Blog(object):
     }
 
   @classmethod
-  def get_from_mongo(cls, id):
+  def from_mongo(cls, id):
     blog_data = Database.find_one(collection='blogs', query={'id': id})
     return cls(author=blog_data['author'],
                 title=blog_data['title'],
