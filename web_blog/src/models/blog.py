@@ -1,14 +1,14 @@
 import uuid
 import datetime
 from models.post import Post
-from database import Database
+from common.database import Database
 
 class Blog(object):
-  def __init__(self, author, title, description, id=None):
+  def __init__(self, author, title, description, _id=None):
     self.title = title
     self.description = description
     self.author = author
-    self._id = uuid.uuid4().hex if id is None else id
+    self._id = uuid.uuid4().hex if _id is None else _id
 
   def new_post(self):
     title = input("Enter post title:")
