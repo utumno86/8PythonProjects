@@ -1,7 +1,9 @@
-import uuid
 import datetime
-from models.post import Post
-from common.database import Database
+import uuid
+
+from src.common.database import Database
+from src.models.post import Post
+
 
 class Blog(object):
   def __init__(self, author, title, description, author_id, _id=None):
