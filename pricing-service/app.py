@@ -1,5 +1,6 @@
 from flask import Flask
 from learning import learning_blueprint
+from models.item import Item
 
 app = Flask(__name__)
 
