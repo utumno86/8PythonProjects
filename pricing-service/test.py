@@ -6,4 +6,7 @@ tag_name = "p"
 query = {"class": "price price--large"}
 
 item = Item(url, tag_name, query)
-print(item.load_price())
+item.save_to_mongo()
+
+items_loaded = Item.all()
+print(items_loaded[0].load_price())

@@ -1,15 +1,23 @@
 import requests
 import re
+import uuid
 from bs4 import BeautifulSoup
+from typing import Dict
+from common.database import Database
 
 class Item:
-  def __init__(self, url, tag_name, query):
-    self.url = "https://www.johnlewis.com/samsung-addwash-ww90k5410ww-eu-washing-machine-9kg-load-a-energy-rating-1400rpm-spin-white/p2523271"
-    self.tag_name = "p"
-    self.query = {"class": "price price--large"}
+  def __init__(self, url: str, tag_name: str, query: Dict, _id: str = None):
+    self.url = url
+    self.tag_name = tag_name
+    self.query = query
     self.price = None
+    self.collection = "items"
+    self._id = _id or uuid.uuid4().hex
 
-  def load_price(self):
+  def __repr__(self):
+    return f"<Item {self.url}>"
+
+  def load_price(self)-> float:
     response = requests.get(self.url)
     content = response.content
     soup = BeautifulSoup(content, "html.parser")
@@ -22,3 +30,19 @@ class Item:
     without_commas = found_price.replace(",", "")
     self.price = float(without_commas)
     return self.price
+
+  def json(self) -> Dict:
+    return {
+      "_id": self._id,
+      "url": self.url,
+      "tag_name": self.tag_name,
+      "query": self.query
+    }
+
+  @classmethod
+  def all(cls):
+    items_from_db = Database.find("items", {})
+    return [cls(**item) for item in items_from_db]
+
+  def save_to_mongo(self):
+    Database.insert(self.collection, self.json())
