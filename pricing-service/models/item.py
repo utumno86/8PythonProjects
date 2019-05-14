@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 class Item:
-  def __init__(self):
+  def __init__(self, url, tag_name, query):
     self.url = "https://www.johnlewis.com/samsung-addwash-ww90k5410ww-eu-washing-machine-9kg-load-a-energy-rating-1400rpm-spin-white/p2523271"
     self.tag_name = "p"
     self.query = {"class": "price price--large"}
