@@ -3,15 +3,17 @@ import re
 import uuid
 from bs4 import BeautifulSoup
 from typing import Dict, List
+from models.model import Model
 from common.database import Database
 
-class Item:
+class Item(Model):
+  collection = "items"
+
   def __init__(self, url: str, tag_name: str, query: Dict, _id: str = None):
     self.url = url
     self.tag_name = tag_name
     self.query = query
     self.price = None
-    self.collection = "items"
     self._id = _id or uuid.uuid4().hex
 
   def __repr__(self):
@@ -41,11 +43,6 @@ class Item:
 
   def save_to_mongo(self):
     Database.insert(self.collection, self.json())
-
-  @classmethod
-  def all(cls) -> List:
-    items_from_db = Database.find("items", {})
-    return [cls(**item) for item in items_from_db]
 
   @classmethod
   def get_by_id(cls, _id):
