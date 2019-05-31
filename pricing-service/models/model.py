@@ -3,7 +3,8 @@ from typing import Dict, List
 from common.database import Database
 
 class Model(metaclass=ABCMeta):
-  collection = "models"
+  collection: str
+  _id: str
 
   def __init__(self, *args, **kwargs):
     pass
@@ -24,7 +25,7 @@ class Model(metaclass=ABCMeta):
     return [cls(**element) for element in elements_from_db]
 
   @classmethod
-  def get_by_id(cls, _id):
+  def get_by_id(cls, _id: str):
     return cls.find_one_by("_id", _id)
 
   @classmethod
