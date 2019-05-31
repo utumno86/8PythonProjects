@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
-from typing import Dict, List
+from typing import Dict, List, TypeVar, Type
 from common.database import Database
+
+T = TypeVar('T', bound='Model')
 
 class Model(metaclass=ABCMeta):
   collection: str
@@ -16,22 +18,22 @@ class Model(metaclass=ABCMeta):
     Database.remove(self.collection, {"_id": self._id}, self.json())
 
   @abstractmethod
-  def json(self):
+  def json(self) -> Dict:
     raise NotImplementedError
 
   @classmethod
-  def all(cls) -> List:
+  def all(cls: Type[T]) -> List[T]:
     elements_from_db = Database.find(cls.collection, {})
     return [cls(**element) for element in elements_from_db]
 
   @classmethod
-  def get_by_id(cls, _id: str):
+  def get_by_id(cls: Type[T], _id: str) -> T:
     return cls.find_one_by("_id", _id)
 
   @classmethod
-  def find_one_by(cls, attribute, value):
+  def find_one_by(cls: Type[T], attribute, value) -> T:
     return cls(**Database.find_one(cls.collection, {attribute: value}))
 
   @classmethod
-  def find_many_by(cls, attribute, value):
+  def find_many_by(cls: Type[T], attribute, value) -> List[T]:
     return [cls(**element) for element in Database.find(cls.collection, {attribute: value})]
