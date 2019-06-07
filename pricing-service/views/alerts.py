@@ -1,6 +1,7 @@
-import json
 from flask import render_template, request, Blueprint
 from models.alert import Alert
+from models.store import Store
+from models.item import Item
 
 alert_blueprint = Blueprint('alerts', __name__)
 
@@ -12,10 +13,13 @@ def index():
 @alert_blueprint.route('/new', methods=['GET', 'POST'])
 def new_alert():
   if request.method == 'POST':
-    item_id = request.form['item_id']
+    item_url = request.form['item_url']
     price_limit = request.form['price_limit']
-    query = json.loads(request.form['query'])
 
-    Alert(item_id, price_limit).save_to_mongo()
+    store = Store.find_by_url(item_url)
+    item = Item(item_url, store.tag_name, store.query)
+    item.save_to_mongo()
+
+    Alert(item._id, item.price_limit).save_to_mongo()
 
   return render_template('alerts/new_alert.html')
