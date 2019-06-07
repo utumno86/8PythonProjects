@@ -1,5 +1,4 @@
 from flask import Flask
-from views.items import item_blueprint
 from views.alerts import alert_blueprint
 
 app = Flask(__name__)

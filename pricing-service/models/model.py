@@ -31,9 +31,9 @@ class Model(metaclass=ABCMeta):
     return cls.find_one_by("_id", _id)
 
   @classmethod
-  def find_one_by(cls: Type[T], attribute: str, value: Union(str, Dict)) -> T:
+  def find_one_by(cls: Type[T], attribute: str, value: Union[str, Dict]) -> T:
     return cls(**Database.find_one(cls.collection, {attribute: value}))
 
   @classmethod
-  def find_many_by(cls: Type[T], attribute: str, value: Union(str, Dict)) -> List[T]:
+  def find_many_by(cls: Type[T], attribute: str, value: Union[str, Dict]) -> List[T]:
     return [cls(**element) for element in Database.find(cls.collection, {attribute: value})]
