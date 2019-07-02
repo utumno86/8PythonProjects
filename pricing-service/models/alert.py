@@ -7,6 +7,7 @@ from models.model import Model
 @dataclass(eq=False)
 class Alert(Model):
   collection: str = field(init=False, default="alerts")
+  name: str
   item_id: str
   price_limit: float
   _id: str = field(default_factory=lambda: uuid.uuid4().hex)
@@ -18,7 +19,8 @@ class Alert(Model):
     return {
       "_id": self._id,
       "price_limit": self.price_limit,
-      "item_id": self.item_id
+      "item_id": self.item_id,
+      "name": self.name
     }
 
   def load_item_price(self):
