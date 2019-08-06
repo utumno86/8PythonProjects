@@ -16,9 +16,10 @@ class Store(Model):
     def json(self) -> Dict:
       return {
         "_id": self._id,
-        "url": self.url,
+        "url_prefix": self.url_prefix,
         "tag_name": self.tag_name,
-        "query": self.query
+        "query": self.query,
+        "name": self.name
       }
 
     @classmethod
