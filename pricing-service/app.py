@@ -1,6 +1,7 @@
 from flask import Flask
 from views.alerts import alert_blueprint
 from views.stores import store_blueprint
+from views.users import user_blueprint
 
 app = Flask(__name__)
 
