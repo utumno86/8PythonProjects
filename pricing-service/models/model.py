@@ -15,7 +15,7 @@ class Model(metaclass=ABCMeta):
     Database.update(self.collection, {"_id": self._id}, self.json())
 
   def remove_from_mongo(self):
-    Database.remove(self.collection, {"_id": self._id}, self.json())
+    Database.remove(self.collection, {"_id": self._id})
 
   @abstractmethod
   def json(self) -> Dict:
