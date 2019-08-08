@@ -30,7 +30,7 @@ class User(Model):
       cls.find_by_email(email)
       raise UserErrors.UserAlreadyRegisteredError('The email you used to register already exists in the database')
     except UserErrors.UserNotFoundError:
-      User(email, password).save_to_mongo()
+      User(email, Utils.hash_password(password)).save_to_mongo()
 
   def json(self) -> Dict:
     return {
