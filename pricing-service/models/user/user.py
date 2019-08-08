@@ -25,7 +25,7 @@ class User(Model):
   def is_login_valid(cls, email: str, password: str) -> bool:
     user = cls.find_by_email(email)
 
-    if not Utils.check_hashed_password(password, Utils.hash_password(password)):
+    if not Utils.check_hashed_password(password, user.password):
       raise UserErrors.IncorrectPasswordError('Your password was incorrect.')
 
     return True
