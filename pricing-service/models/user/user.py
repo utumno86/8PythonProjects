@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 from models.model import Model
-from models.user.errors import UserErrors
+import models.user.errors as UserErrors
 from common.database import Database
 from common.utils import Utils
 
@@ -29,7 +29,7 @@ class User(Model):
     try:
       cls.find_by_email(email)
       raise UserErrors.UserAlreadyRegisteredError('The email you used to register already exists in the database')
-    except UserError.UserNotFoundError:
+    except UserErrors.UserNotFoundError:
       User(email, password).save_to_mongo()
 
   def json(self) -> Dict:
